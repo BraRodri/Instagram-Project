@@ -1,13 +1,11 @@
 import React, { useState } from "react";
-import { Form, Input, Divider } from "antd";
+import { Form, Input, Divider, notification } from "antd";
+import { singInApi } from "../../../api/user";
 
 import "./FormRegister.css";
 
 export default function FormRegister() {
-  const [inputs, setInputs] = useState({
-    email: "",
-    password: "",
-  });
+  const [inputs, setInputs] = useState({});
 
   const changeForm = (e) => {
     setInputs({
@@ -16,8 +14,20 @@ export default function FormRegister() {
     });
   };
 
-  const register = (e) => {
+  const register = async (e) => {
     e.preventDefault();
+    console.log(inputs);
+
+    const result = await singInApi(inputs);
+    if (!result.ok) {
+      notification["error"]({
+        message: result.message,
+      });
+    } else {
+      notification["success"]({
+        message: result.message,
+      });
+    }
   };
 
   return (
@@ -62,7 +72,7 @@ export default function FormRegister() {
             },
           ]}
         >
-          <Input type="tel" name="phone" placeholder="Numero Celular" />
+          <Input type="tel" name="telephone" placeholder="Numero Celular" />
         </Form.Item>
         <Form.Item
           name="username"
@@ -73,7 +83,7 @@ export default function FormRegister() {
             },
           ]}
         >
-          <Input name="text" placeholder="Username" />
+          <Input name="username" placeholder="Username" />
         </Form.Item>
         <Form.Item
           name="password"
