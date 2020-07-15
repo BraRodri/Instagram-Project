@@ -27,7 +27,25 @@ export default function FormRegister() {
       notification["success"]({
         message: result.message,
       });
+      resetForm();
     }
+  };
+
+  const resetForm = () => {
+    const inputs = document.getElementsByTagName("input");
+
+    for (let i = 0; i < inputs.length; i++) {
+      inputs[i].value = "";
+    }
+
+    setInputs({
+      name: "",
+      email: "",
+      telephone: "",
+      username: "",
+      password: "",
+      repeatPassword: "",
+    });
   };
 
   return (
