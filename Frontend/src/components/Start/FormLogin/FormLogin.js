@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { Form, Input, Divider, notification } from "antd";
 import { loginApi } from "../../../api/user";
+import { ACCESS_TOKEN, REFRESH_TOKEN } from "../../../utils/constants";
 
 export default function FormLogin() {
   const [inputs, setInputs] = useState({
@@ -17,21 +18,22 @@ export default function FormLogin() {
 
   const login = async (e) => {
     e.preventDefault();
-
-    console.log(inputs);
     const resultado = await loginApi(inputs);
-    console.log(resultado);
 
     if (resultado.message) {
       notification["error"]({
         message: resultado.message,
       });
     } else {
+      const { accessToken, refreshToken } = resultado;
+      localStorage.setItem(ACCESS_TOKEN, accessToken);
+      localStorage.setItem(REFRESH_TOKEN, refreshToken);
+
       notification["success"]({
         message: "Login Exitoso",
       });
 
-      //window.location.href = "/home";
+      window.location.href = "/home";
     }
   };
 

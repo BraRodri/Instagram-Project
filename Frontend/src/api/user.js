@@ -28,7 +28,7 @@ export function singInApi(data) {
 export function loginApi(data) {
   const url = `${basePath}/logIn`;
   const params = {
-    method: "GET",
+    method: "POST",
     body: JSON.stringify(data),
     headers: {
       "Content-Type": "application/json",
