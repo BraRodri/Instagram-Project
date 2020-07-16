@@ -1,4 +1,5 @@
 const bcrypt = require("bcrypt");
+const { createAccessToken } = require('./../services/jwt-Token');
 const User = require("./../models/user");
 
 const signIn = (req, res) => {
@@ -81,7 +82,7 @@ const logIn = (req, res) => {
             if (pass === false) {
               res.status(500).send({ message: "Contraseña Incorrecta" });
             } else {
-              res.status(200).send({ data });
+              res.status(200).send({ tokenCreated: createAccessToken(data)});
             }
           }
         });
