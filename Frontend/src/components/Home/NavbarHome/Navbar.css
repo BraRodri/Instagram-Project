@@ -1,0 +1,33 @@
+.navegacion {
+  margin: 0;
+  padding: 5px;
+  background-color: #fff !important;
+  border-bottom: 1px solid #dbdbdb;
+}
+
+.img-letra3 {
+  width: 110px !important;
+}
+
+.img-profile {
+  width: 30px;
+  height: 30px;
+}
+
+.navbar-nav {
+  font-size: 20px;
+}
+
+.navbar-nav a {
+  padding-left: 18px;
+  color: black;
+}
+
+.dropdown {
+  margin-top: -8px;
+  margin-left: 5px;
+}
+
+.btn-link:hover {
+  text-decoration: none;
+}
