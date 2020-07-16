@@ -1,5 +1,6 @@
 import React, { useState } from "react";
-import { Form, Input, Divider } from "antd";
+import { Form, Input, Divider, notification } from "antd";
+import { loginApi } from "../../../api/user";
 
 export default function FormLogin() {
   const [inputs, setInputs] = useState({
@@ -14,8 +15,24 @@ export default function FormLogin() {
     });
   };
 
-  const login = (e) => {
+  const login = async (e) => {
     e.preventDefault();
+
+    console.log(inputs);
+    const resultado = await loginApi(inputs);
+    console.log(resultado);
+
+    if (resultado.message) {
+      notification["error"]({
+        message: resultado.message,
+      });
+    } else {
+      notification["success"]({
+        message: "Login Exitoso",
+      });
+
+      //window.location.href = "/home";
+    }
   };
 
   return (
