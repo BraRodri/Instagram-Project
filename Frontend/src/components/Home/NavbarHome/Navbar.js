@@ -65,20 +65,20 @@ export default function Navbar() {
                     className="img-profile"
                   />
                 }
-                id="basic-nav-dropdown"
+                className="basic-nav-dropdown"
               >
-                <Link to="/home/profile" className="active">
-                  <FaRegUserCircle /> Profile
+                <Link to="/home/profile" className="active p-2">
+                  <FaRegUserCircle /> Perfil
                 </Link>
-                <Link to="/home/saved" className="active">
-                  <FaRegBookmark /> Saved
+                <Link to="/home/saved" className="active p-2">
+                  <FaRegBookmark /> Salvados
                 </Link>
-                <Link to="/home/setting" className="active">
-                  <AiOutlineSetting /> Settings
+                <Link to="/home/setting" className="active p-2">
+                  <AiOutlineSetting /> Configuración
                 </Link>
                 <NavDropdown.Divider />
-                <Link to="/home/profile" className="active">
-                  Log Out
+                <Link to="/home/profile" className="active p-2">
+                  Cerrar Sesión
                 </Link>
               </NavDropdown>
             </Nav>

@@ -26,6 +26,10 @@
   color: black;
 }
 
+#basic-nav-dropdown .dropdown-menu-right .navbar-nav a {
+  margin-top: 10px;
+}
+
 .first-item {
   padding-left: 0px !important;
 }
@@ -41,6 +45,7 @@
 
 .navbar-expand-lg .navbar-nav .nav-link {
   padding-left: 15px;
+  padding-right: 5px;
 }
 
 .navbar-nav .dropdown-menu a {
@@ -79,5 +84,9 @@
   .img-letra3 {
     width: 100px !important;
     margin-left: 10px;
+  }
+
+  .navbar-nav .dropdown-menu {
+    position: absolute;
   }
 }

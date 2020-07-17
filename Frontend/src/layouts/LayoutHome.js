@@ -12,7 +12,7 @@ export default function LayoutHome(props) {
   return (
     <div>
       <Navbar />
-      <Container className="start">
+      <Container className="home">
         <LoadRoutes routes={routes} />
       </Container>
     </div>

@@ -4,6 +4,7 @@ import LayoutHome from "../layouts/LayoutHome";
 
 //pages home
 import Home from "../pages/Home/Home";
+import Profile from "../pages/Home/Profile";
 
 //pages start
 import Login from "../pages/Start/Login";
@@ -21,6 +22,11 @@ const routes = [
       {
         path: "/home",
         component: Home,
+        exact: true,
+      },
+      {
+        path: "/home/profile",
+        component: Profile,
         exact: true,
       },
       {

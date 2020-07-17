@@ -22,7 +22,7 @@ export default function SidebarRight() {
       </div>
       <div className="storisMos mt-3 ">
         <div className="row ">
-          <div className="col-lg-8 mb-2">Sugerencias para ti</div>
+          <div className="col-lg-8 mb-4">Sugerencias para ti</div>
           <div className="col-lg-4 text-right">
             <Link to="home/see-all">Ver Todo</Link>
           </div>
