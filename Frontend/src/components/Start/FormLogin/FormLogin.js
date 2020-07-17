@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Form, Input, Divider, notification } from "antd";
 import { loginApi } from "../../../api/user";
 import { ACCESS_TOKEN, REFRESH_TOKEN } from "../../../utils/constants";
@@ -8,6 +8,8 @@ export default function FormLogin() {
     email: "",
     password: "",
   });
+
+  const [isLoading, setLoading] = useState(false);
 
   const changeForm = (e) => {
     setInputs({
@@ -36,6 +38,20 @@ export default function FormLogin() {
       window.location.href = "/home";
     }
   };
+
+  function simulateNetworkRequest() {
+    return new Promise((resolve) => setTimeout(resolve, 3000));
+  }
+
+  useEffect(() => {
+    if (isLoading) {
+      simulateNetworkRequest().then(() => {
+        setLoading(false);
+      });
+    }
+  }, [isLoading]);
+
+  const handleClick = () => setLoading(true);
 
   return (
     <div className="login-form">
@@ -72,7 +88,8 @@ export default function FormLogin() {
         <input
           className="btn btn-primary btn-block"
           type="submit"
-          value="Log in"
+          value={isLoading ? "Validando..." : "Iniciar Sesión"}
+          onClick={!isLoading ? handleClick : null}
         />
       </Form>
 
