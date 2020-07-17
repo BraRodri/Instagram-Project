@@ -28,12 +28,12 @@ export default function Navbar() {
         expand="lg"
         variant="light"
         bg="light"
-        sticky="top"
+        fixed="top"
         className="navegacion"
       >
         <Container>
           <Brand className="title-navegacion">
-            <Link to="/principal">
+            <Link to="/home">
               <Image src={LetraImg} fluid className="img-letra3" />
             </Link>
           </Brand>
@@ -45,10 +45,10 @@ export default function Navbar() {
               <Link to="/home" className="active first-item">
                 <AiOutlineHome />
               </Link>
-              <Link to="/direct" className="active">
+              <Link to="/home/direct" className="active">
                 <FiSend />
               </Link>
-              <Link to="/explore" className="active">
+              <Link to="/home/explore" className="active">
                 <FaRegCompass />
               </Link>
               <Link to="/home" className="active">
@@ -70,10 +70,10 @@ export default function Navbar() {
                 <Link to="/home/profile" className="active">
                   <FaRegUserCircle /> Profile
                 </Link>
-                <Link to="/home/profile" className="active">
+                <Link to="/home/saved" className="active">
                   <FaRegBookmark /> Saved
                 </Link>
-                <Link to="/home/profile" className="active">
+                <Link to="/home/setting" className="active">
                   <AiOutlineSetting /> Settings
                 </Link>
                 <NavDropdown.Divider />

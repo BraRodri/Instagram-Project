@@ -1,0 +1,60 @@
+.dejarfijo {
+  position: fixed;
+  width: 25%;
+}
+
+.dejarfijo p {
+  font-size: 12px;
+  margin-top: -2px;
+  color: #8e8e8e;
+}
+
+.img-thumb-editado {
+  max-width: 130% !important;
+}
+
+.link-seguir {
+  text-align: right;
+}
+
+.link-seguir button {
+  font-size: 14px;
+}
+
+.img-thumbnail {
+  padding: 2px;
+}
+
+.footer-instagram {
+  margin-top: 30px;
+}
+
+.footer-instagram p {
+  color: #c7c7c7;
+}
+
+.footer-instagram p:first-of-type {
+  margin-bottom: 25px;
+}
+
+@media (max-width: 767.98px) {
+  .dejarfijo {
+    display: none;
+  }
+}
+
+@media (max-width: 991.98px) {
+  .dejarfijo {
+    display: none;
+  }
+}
+
+@media (max-width: 1199.98px) {
+  .img-thumb-editado {
+    max-width: 170% !important;
+  }
+  .dejarfijo {
+    width: 30%;
+    margin-left: -10px;
+  }
+}

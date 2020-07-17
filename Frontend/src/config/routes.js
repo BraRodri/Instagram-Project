@@ -3,7 +3,7 @@ import LayoutStart from "../layouts/LayoutStart";
 import LayoutHome from "../layouts/LayoutHome";
 
 //pages home
-import Home from "../pages/Home";
+import Home from "../pages/Home/Home";
 
 //pages start
 import Login from "../pages/Start/Login";

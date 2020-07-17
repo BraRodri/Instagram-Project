@@ -1,0 +1,107 @@
+.imgProfilePublicacion {
+  width: 12%;
+  margin: 0;
+  padding: 2px;
+  margin-right: 10px;
+}
+
+.nombrePersonaPublicacion {
+  font-size: 15px;
+}
+
+.card-header {
+  background-color: #fff;
+}
+
+.card-footer {
+  background-color: #fff;
+  padding: 10px 0px;
+}
+
+.card-footer input {
+  border: transparent;
+}
+
+.card-footer input:focus {
+  box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0);
+}
+
+.btn-submit-post {
+  color: #0095f6;
+}
+
+.all-post {
+  margin-right: 50px;
+}
+
+.text-right button {
+  background: transparent;
+  color: black !important;
+}
+
+.text-right button:focus {
+  box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0);
+}
+
+.modal-post-more .modal-body {
+  padding: 0px !important;
+  text-align: center;
+  align-content: center;
+}
+
+.modal-post-more .modal-content {
+  border-radius: 15px;
+}
+
+.list-modal-body {
+  border-radius: 15px;
+}
+
+.list-modal-body button {
+  color: black;
+  list-style: none;
+  box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0);
+}
+
+.list-modal-body button:hover {
+  color: black;
+  text-decoration: none !important;
+}
+
+.list-modal-body button:focus {
+  box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0);
+}
+
+.btn-link {
+  text-decoration: none !important;
+}
+
+.btn-post .btn {
+  background-color: transparent;
+  border-color: transparent;
+  font-size: 25px;
+  padding: 0px;
+  margin-right: 15px;
+}
+
+.btn-post .btn:hover {
+  box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0);
+}
+
+.btn-post .btn:focus {
+  box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0);
+}
+
+.card-title {
+}
+
+@media (max-width: 575.98px) {
+  .all-post {
+    margin: 0px;
+    padding: 0px;
+  }
+
+  .col-md-12 {
+    padding: 0px;
+  }
+}
