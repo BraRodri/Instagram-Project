@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { Row, Col, Image } from "react-bootstrap";
 import { AiOutlineSetting } from "react-icons/ai";
@@ -6,24 +6,54 @@ import { MdPersonPin, MdFilterFrames } from "react-icons/md";
 import { FaTh, FaBookmark } from "react-icons/fa";
 import { Tabs } from "antd";
 
+//funciones importante
+import { getAvatarApi, getUserIdApi } from "../../../api/user";
+
 import "./Profile.css";
 
 import NoAvatar from "../../../assets/img/png/avatar.png";
 
-export default function Profile() {
+export default function Profile(props) {
   const { TabPane } = Tabs;
+  const { person, reload, setReload } = props;
+
+  const [avatar, setAvatar] = useState(null);
+  const [userData, setUserData] = useState({});
+
+  useEffect(() => {
+    const idPerson = person.id;
+    getUserIdApi(idPerson).then((response) => {
+      setUserData(response.user);
+    });
+    setReload(false);
+  }, [reload]); // eslint-disable-line react-hooks/exhaustive-deps
+
+  useEffect(() => {
+    if (userData.avatar) {
+      getAvatarApi(userData.avatar).then((response) => {
+        setAvatar(response);
+      });
+    } else {
+      setAvatar(null);
+    }
+  }, [reload, userData]);
 
   return (
     <div>
       <div className="top-profile">
         <Row>
           <Col lg={4} md={2} xs={4} className="text-center">
-            <Image src={NoAvatar} roundedCircle thumbnail fluid />
+            <Image
+              src={avatar ? avatar : NoAvatar}
+              roundedCircle
+              thumbnail
+              fluid
+            />
           </Col>
           <Col lg={8} md={8} xs={8}>
             <Row className="div-top-first">
               <Col lg={4}>
-                <h2 className="mr-5">Username</h2>
+                <h2 className="mr-5">{userData.username}</h2>
               </Col>
               <Col lg={8} className="div-top-first-btn">
                 <Link to="/home/setting" className="btn-edit mr-4">
@@ -37,38 +67,38 @@ export default function Profile() {
             <div>
               <ul id="lista-profile">
                 <li>
-                  <strong>10</strong> Post
+                  <strong>0</strong> Post
                 </li>
                 <li>
-                  <strong>10</strong> Seguidores
+                  <strong>0</strong> Seguidores
                 </li>
                 <li>
-                  <strong>10</strong> Siguiendo
+                  <strong>0</strong> Siguiendo
                 </li>
               </ul>
             </div>
             <div className="lg-mostrar-pantalla">
               <h6>
-                <strong>Nombre Completo</strong>
+                <strong>{userData.name}</strong>
               </h6>
             </div>
           </Col>
           <Col className="xs-movil-mostrar mt-4">
             <div>
               <h6>
-                <strong>Nombre Completo</strong>
+                <strong>{userData.name}</strong>
               </h6>
             </div>
             <div>
               <ul id="lista-profile-movil">
                 <li>
-                  <strong>10</strong> <p>Post</p>
+                  <strong>0</strong> <p>Post</p>
                 </li>
                 <li>
-                  <strong>10</strong> <p>Seguidores</p>
+                  <strong>0</strong> <p>Seguidores</p>
                 </li>
                 <li>
-                  <strong>10</strong> <p>Siguiendo</p>
+                  <strong>0</strong> <p>Siguiendo</p>
                 </li>
               </ul>
             </div>

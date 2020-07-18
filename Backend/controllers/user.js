@@ -1,5 +1,5 @@
 const bcrypt = require("bcrypt");
-const { createAccessToken, createRefresh } = require('./../services/jwt-Token');
+const { createAccessToken, createRefresh } = require("./../services/jwt-Token");
 const User = require("./../models/user");
 
 const signIn = (req, res) => {
@@ -82,7 +82,10 @@ const logIn = (req, res) => {
             if (pass === false) {
               res.status(500).send({ message: "Contraseña Incorrecta" });
             } else {
-              res.status(200).send({ tokenCreated: createAccessToken(data), tokenRefresh: createRefresh(data)});
+              res.status(200).send({
+                tokenCreated: createAccessToken(data),
+                tokenRefresh: createRefresh(data),
+              });
             }
           }
         });
@@ -96,17 +99,18 @@ const updateUser = (req, res) => {
   const { name, email, telephone, username, avatar, state } = req.body;
   const data = {
     name: name,
-    email: email,
+    email: email.toLowerCase(),
     telephone: telephone,
     username: username,
     avatar: avatar,
     state: state,
   };
+
   User.findByIdAndUpdate(_id.id, data, (err, resp) => {
     if (err) {
       res.status(500).send({ message: "Error en el Servidor" });
     } else {
-      res.status(200).send({ message: "Datos actualizados Exitozamente" });
+      res.status(200).send({ message: "Datos actualizados Correctamente" });
     }
   });
 };
@@ -128,17 +132,17 @@ const deleteUser = (req, res) => {
 
 const updateState = (req, res) => {
   const _id = req.params.idUser;
-  User.findById((_id), (err, info) => {
-    if(err){
-      res.status(500).send({message: 'Error en el servidor'});
-    }else{
-      if(!info){
-        res.status(404).send({message: 'Cuenta no encontrada'});
-      }else{
+  User.findById(_id, (err, info) => {
+    if (err) {
+      res.status(500).send({ message: "Error en el servidor" });
+    } else {
+      if (!info) {
+        res.status(404).send({ message: "Cuenta no encontrada" });
+      } else {
         let state = info.state;
-        if(state === true){
+        if (state === true) {
           state = false;
-        }else{
+        } else {
           state = true;
         }
         const data = {
@@ -149,21 +153,89 @@ const updateState = (req, res) => {
           username: info.username,
           avatar: info.avatar,
           state: state,
-          password: info.password
-        }
-        User.findByIdAndUpdate((_id), (data), (err, inf) => {
-          if(err){
-            res.status(500).send({message: 'Error en el servidor'});
-          }else{
-            if(!inf){
-              res.status(404).send({message: 'No se actualizo su estado'});
-            }else{
-              res.status(200).send({message: 'Estado Actualizado Exitozamente'});
+          password: info.password,
+        };
+        User.findByIdAndUpdate(_id, data, (err, inf) => {
+          if (err) {
+            res.status(500).send({ message: "Error en el servidor" });
+          } else {
+            if (!inf) {
+              res.status(404).send({ message: "No se actualizo su estado" });
+            } else {
+              res
+                .status(200)
+                .send({ message: "Estado Actualizado Exitozamente" });
             }
           }
         });
       }
-    } 
+    }
+  });
+};
+
+function getUserId(req, res) {
+  const { id } = req.params;
+
+  User.findById({ _id: id }).then((user) => {
+    if (!user) {
+      res.status(404).send({ message: "No se ha encontrado ningun usuario." });
+    } else {
+      res.status(200).send({ user });
+    }
+  });
+}
+
+function updateAvatar(req, res) {
+  const params = req.params;
+
+  User.findById({ _id: params.id }, (err, userData) => {
+    if (err) {
+      res.status(500).send({ message: "Error del servidor." });
+    } else {
+      if (!userData) {
+        res
+          .status(404)
+          .send({ message: "No se ha encontrado ningun usuario." });
+      } else {
+        let user = userData;
+
+        if (req.files) {
+          let filePath = req.files.avatar.path;
+          let fileSplit = filePath.split("\\");
+          let fileName = fileSplit[1];
+          console.log(fileName);
+          let extSplit = fileName.split(".");
+
+          let fileExt = extSplit[1];
+
+          if (fileExt !== "png" && fileExt !== "jpg") {
+            res.status(400).send({
+              message:
+                "La extensión de la imagen no es valida. (Extensiones Permitidas: PNG Y JPG)",
+            });
+          } else {
+            user.avatar = fileName;
+            User.findByIdAndUpdate(
+              { _id: params.id },
+              user,
+              (err, userResult) => {
+                if (err) {
+                  res.status(500).send({ message: "Error del Servidor." });
+                } else {
+                  if (!userResult) {
+                    res
+                      .status(404)
+                      .send({ message: "No se ha encontrado ningun usuario." });
+                  } else {
+                    res.status(200).send({ avatarName: fileName });
+                  }
+                }
+              }
+            );
+          }
+        }
+      }
+    }
   });
 }
 
@@ -172,5 +244,7 @@ module.exports = {
   logIn,
   updateUser,
   deleteUser,
-  updateState
+  updateState,
+  getUserId,
+  updateAvatar,
 };

@@ -27,9 +27,9 @@ export default function FormLogin() {
         message: resultado.message,
       });
     } else {
-      const { accessToken, refreshToken } = resultado;
-      localStorage.setItem(ACCESS_TOKEN, accessToken);
-      localStorage.setItem(REFRESH_TOKEN, refreshToken);
+      const { tokenCreated, tokenRefresh } = resultado;
+      localStorage.setItem(ACCESS_TOKEN, tokenCreated);
+      localStorage.setItem(REFRESH_TOKEN, tokenRefresh);
 
       notification["success"]({
         message: "Login Exitoso",

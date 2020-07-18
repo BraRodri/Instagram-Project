@@ -46,9 +46,9 @@ export function refreshAccessTokenApi(refreshToken) {
       if (!result) {
         logout();
       } else {
-        const { accessToken, refreshToken } = result;
-        localStorage.setItem(ACCESS_TOKEN, accessToken);
-        localStorage.setItem(REFRESH_TOKEN, refreshToken);
+        const { tokenCreated, tokenRefresh } = result;
+        localStorage.setItem(ACCESS_TOKEN, tokenCreated);
+        localStorage.setItem(REFRESH_TOKEN, tokenRefresh);
       }
     });
 }

@@ -90,3 +90,7 @@
     position: absolute;
   }
 }
+
+.btn-cerrar-sesion:hover {
+  cursor: pointer;
+}

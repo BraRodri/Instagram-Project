@@ -3,6 +3,7 @@ import { Image, Button, Modal } from "react-bootstrap";
 import { FaRegComment, FaRegBookmark } from "react-icons/fa";
 import { FiHeart, FiSend, FiMoreHorizontal } from "react-icons/fi";
 import { List } from "antd";
+import CreatePostForm from "../CreatePostForm";
 
 import "./Post.css";
 
@@ -17,6 +18,8 @@ export default function Post() {
 
   return (
     <div className="all-post">
+      <CreatePostForm />
+
       <div className="card mb-4">
         <div className="card-header">
           <div className="row align-items-center">
