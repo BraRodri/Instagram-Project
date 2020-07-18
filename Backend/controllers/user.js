@@ -96,7 +96,7 @@ const logIn = (req, res) => {
 
 const updateUser = (req, res) => {
   const _id = req.params;
-  const { name, email, telephone, username, avatar, state } = req.body;
+  const { name, email, telephone, username, avatar, state, website, gender } = req.body;
   const data = {
     name: name,
     email: email.toLowerCase(),
@@ -104,6 +104,8 @@ const updateUser = (req, res) => {
     username: username,
     avatar: avatar,
     state: state,
+    website: website,
+    gender: gender
   };
 
   User.findByIdAndUpdate(_id.id, data, (err, resp) => {

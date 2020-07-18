@@ -11,6 +11,8 @@ const createAccessToken = (data) => {
     username: data.username,
     avatar: data.avatar,
     state: data.state,
+    website: data.website,
+    gender: data.gender,
     dateCreation: moment().unix(),
     dateExpiration: moment().add(3, "hours").unix(),
   };

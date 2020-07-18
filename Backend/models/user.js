@@ -15,6 +15,8 @@ const user = new Schema({
   password: String,
   avatar: String,
   state: Boolean,
+  website: String,
+  gender: String
 });
 
 module.exports = mongoose.model("User", user);
