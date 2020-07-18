@@ -185,37 +185,35 @@ function getUserId(req, res) {
   });
 }
 
-
-
 const searchUser = (req, res) => {
   const params = req.params.userName;
-  User.find({"username": {$regex: params}}, (err, info) => {
-    if(err){
-      res.status(500).send({message: 'Error en el Servidor'});
-    }else{
-      if(!info){
-        res.status(404).send({message: 'No hay Usuarios'});
-      }else{
+  User.find({ username: { $regex: params } }, (err, info) => {
+    if (err) {
+      res.status(500).send({ message: "Error en el Servidor" });
+    } else {
+      if (!info) {
+        res.status(404).send({ message: "No hay Usuarios" });
+      } else {
         //const data = info.filter((name) => name.username = params);
-        res.status(200).send({info});
+        res.status(200).send({ info });
       }
     }
   });
-}
+};
 
 const getAllUsers = (req, res) => {
   User.find((err, data) => {
-    if(err){
+    if (err) {
       console.log("ERROR");
-    }else{
-      if(!data){
+    } else {
+      if (!data) {
         console.log("NO HAY USUARIOS");
-      }else{
-        res.status(200).send({data});
+      } else {
+        res.status(200).send({ data });
       }
     }
   });
-}
+};
 
 module.exports = {
   signIn,
@@ -225,5 +223,5 @@ module.exports = {
   updateState,
   searchUser,
   getAllUsers,
-  getUserId
+  getUserId,
 };
