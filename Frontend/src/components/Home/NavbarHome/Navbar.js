@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import {
   Navbar as NavbarANT,
@@ -13,14 +13,45 @@ import { FiHeart, FiSend } from "react-icons/fi";
 import { Input } from "antd";
 import { SearchOutlined } from "@ant-design/icons";
 
+//funciones importante
+import { getAvatarApi, getUserIdApi } from "../../../api/user";
+import { logout } from "../../../api/auth";
+
 import "./Navbar.css";
 
 //images
 import LetraImg from "../../../assets/img/png/letra-instagram.png";
 import NoAvatar from "../../../assets/img/png/avatar.png";
 
-export default function Navbar() {
+export default function Navbar(props) {
+  const { person, reload, setReload } = props;
   const { Brand } = NavbarANT;
+
+  const [userData, setUserData] = useState({});
+  const [avatar, setAvatar] = useState(null);
+
+  useEffect(() => {
+    const idPerson = person.id;
+    getUserIdApi(idPerson).then((response) => {
+      setUserData(response.user);
+    });
+    setReload(false);
+  }, [reload]); // eslint-disable-line react-hooks/exhaustive-deps
+
+  useEffect(() => {
+    if (userData.avatar) {
+      getAvatarApi(userData.avatar).then((response) => {
+        setAvatar(response);
+      });
+    } else {
+      setAvatar(null);
+    }
+  }, [setReload, userData]);
+
+  const logoutUser = () => {
+    logout();
+    window.location.reload();
+  };
 
   return (
     <div>
@@ -59,27 +90,30 @@ export default function Navbar() {
                 alignRight
                 title={
                   <Image
-                    src={NoAvatar}
+                    src={avatar ? avatar : NoAvatar}
                     roundedCircle
                     thumbnail
                     className="img-profile"
                   />
                 }
-                id="basic-nav-dropdown"
+                className="basic-nav-dropdown"
               >
-                <Link to="/home/profile" className="active">
-                  <FaRegUserCircle /> Profile
+                <Link to="/home/profile" className="active p-2">
+                  <FaRegUserCircle /> Perfil
                 </Link>
-                <Link to="/home/saved" className="active">
-                  <FaRegBookmark /> Saved
+                <Link to="/home/saved" className="active p-2">
+                  <FaRegBookmark /> Salvados
                 </Link>
-                <Link to="/home/setting" className="active">
-                  <AiOutlineSetting /> Settings
+                <Link to="/home/setting" className="active p-2">
+                  <AiOutlineSetting /> Configuración
                 </Link>
                 <NavDropdown.Divider />
-                <Link to="/home/profile" className="active">
-                  Log Out
-                </Link>
+                <span
+                  onClick={logoutUser}
+                  className="active p-2 btn-cerrar-sesion"
+                >
+                  Cerrar Sesión
+                </span>
               </NavDropdown>
             </Nav>
           </div>

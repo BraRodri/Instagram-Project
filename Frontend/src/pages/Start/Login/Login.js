@@ -1,7 +1,8 @@
 import React from "react";
 import { Row, Col, Image } from "react-bootstrap";
-import { Link } from "react-router-dom";
+import { Link, Redirect } from "react-router-dom";
 import FormLogin from "../../../components/Start/FormLogin";
+import { getAccessTokenApi } from "../../../api/auth";
 
 import "./Login.css";
 
@@ -10,6 +11,9 @@ import UserInterface from "../../../assets/img/svg/user_interface_.svg";
 import LetraInstagram from "../../../assets/img/png/letra-instagram.png";
 
 export default function Login() {
+  if (getAccessTokenApi()) {
+    return <Redirect to="/home" />;
+  }
   return (
     <div>
       <Row>

@@ -46,3 +46,60 @@ export function loginApi(data) {
       return err.message;
     });
 }
+
+export function getAvatarApi(avatarName) {
+  const url = `${basePath}/getImageUser/${avatarName}`;
+
+  return fetch(url)
+    .then((response) => {
+      return response.url;
+    })
+    .catch((err) => {
+      return err.message;
+    });
+}
+
+export function getUserIdApi(id) {
+  const url = `${basePath}/getUserId/${id}`;
+
+  const params = {
+    method: "GET",
+    headers: {
+      "Content-Type": "application/json",
+    },
+  };
+
+  return fetch(url, params)
+    .then((response) => {
+      return response.json();
+    })
+    .then((result) => {
+      return result;
+    })
+    .catch((err) => {
+      return err.message;
+    });
+}
+
+export function updateAvatarApi(avatar, userId) {
+  const url = `${basePath}/update-avatar/${userId}`;
+
+  const formData = new FormData();
+  formData.append("avatar", avatar, avatar.name);
+
+  const params = {
+    method: "PUT",
+    body: formData,
+  };
+
+  return fetch(url, params)
+    .then((response) => {
+      return response.json();
+    })
+    .then((result) => {
+      return result;
+    })
+    .catch((err) => {
+      return err.message;
+    });
+}
