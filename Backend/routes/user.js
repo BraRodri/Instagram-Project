@@ -13,5 +13,9 @@ api.get('/getImageUser/:nameImage', services.getImage);
 api.put('/updateUser/:id', controllerUser.updateUser);
 api.delete('/deleteUser/:id', controllerUser.deleteUser);
 api.get('/updateState/:idUser', controllerUser.updateState);
+api.get('/searchUser/:userName', controllerUser.searchUser);
+
+//obteniendo TODOS los usuarios
+api.get('/getAllUsers', controllerUser.getAllUsers);
 
 module.exports = api;
