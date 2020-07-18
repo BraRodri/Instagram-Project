@@ -94,9 +94,19 @@ const logIn = (req, res) => {
   }
 };
 
-const updateUser = (req, res) => {
+async function updateUser(req, res) {
   const _id = req.params;
-  const { name, email, telephone, username, avatar, state, website, gender } = req.body;
+  const {
+    name,
+    email,
+    telephone,
+    username,
+    avatar,
+    state,
+    website,
+    gender,
+    password,
+  } = req.body;
   const data = {
     name: name,
     email: email.toLowerCase(),
@@ -105,8 +115,19 @@ const updateUser = (req, res) => {
     avatar: avatar,
     state: state,
     website: website,
-    gender: gender
+    gender: gender,
+    password: password,
   };
+
+  if (data.password) {
+    await bcrypt.hash(data.password, null, null, (err, hash) => {
+      if (err) {
+        res.status(500).send({ message: "Error al encriptar la contraseña." });
+      } else {
+        data.password = hash;
+      }
+    });
+  }
 
   User.findByIdAndUpdate(_id.id, data, (err, resp) => {
     if (err) {
@@ -115,7 +136,7 @@ const updateUser = (req, res) => {
       res.status(200).send({ message: "Datos actualizados Correctamente" });
     }
   });
-};
+}
 
 const deleteUser = (req, res) => {
   const _id = req.params.id;
