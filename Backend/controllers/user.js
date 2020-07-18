@@ -185,59 +185,7 @@ function getUserId(req, res) {
   });
 }
 
-function updateAvatar(req, res) {
-  const params = req.params;
 
-  User.findById({ _id: params.id }, (err, userData) => {
-    if (err) {
-      res.status(500).send({ message: "Error del servidor." });
-    } else {
-      if (!userData) {
-        res
-          .status(404)
-          .send({ message: "No se ha encontrado ningun usuario." });
-      } else {
-        let user = userData;
-
-        if (req.files) {
-          let filePath = req.files.avatar.path;
-          let fileSplit = filePath.split("\\");
-          let fileName = fileSplit[1];
-          console.log(fileName);
-          let extSplit = fileName.split(".");
-
-          let fileExt = extSplit[1];
-
-          if (fileExt !== "png" && fileExt !== "jpg") {
-            res.status(400).send({
-              message:
-                "La extensión de la imagen no es valida. (Extensiones Permitidas: PNG Y JPG)",
-            });
-          } else {
-            user.avatar = fileName;
-            User.findByIdAndUpdate(
-              { _id: params.id },
-              user,
-              (err, userResult) => {
-                if (err) {
-                  res.status(500).send({ message: "Error del Servidor." });
-                } else {
-                  if (!userResult) {
-                    res
-                      .status(404)
-                      .send({ message: "No se ha encontrado ningun usuario." });
-                  } else {
-                    res.status(200).send({ avatarName: fileName });
-                  }
-                }
-              }
-            );
-          }
-        }
-      }
-    }
-  });
-}
 
 const searchUser = (req, res) => {
   const params = req.params.userName;
@@ -275,11 +223,7 @@ module.exports = {
   updateUser,
   deleteUser,
   updateState,
-<<<<<<< HEAD
   searchUser,
-  getAllUsers
-=======
-  getUserId,
-  updateAvatar,
->>>>>>> 2e5d969fa5c049f14535aebcb6f53529b7cc92fc
+  getAllUsers,
+  getUserId
 };
