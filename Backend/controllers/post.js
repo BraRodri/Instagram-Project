@@ -1,5 +1,5 @@
 const AddPost = (req, res) => {
-    const params = req.params;
+    const params = req.params.idUser;
     console.log(params);
 }
 
