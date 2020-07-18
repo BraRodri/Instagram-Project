@@ -24,7 +24,11 @@ export default function Setting(props) {
     <div>
       <Tabs tabPosition="left" className="tabs-setting">
         <TabPane tab="Editar Perfil" key="1">
-          <FormEditProfile className="tabs-option-content" />
+          <FormEditProfile
+            className="tabs-option-content"
+            userData={userData}
+            setReload={setReload}
+          />
         </TabPane>
         <TabPane tab="Cambiar Contraseña" key="2">
           Content of Tab 2
