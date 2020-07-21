@@ -33,34 +33,15 @@ export default function FormEditProfile(props) {
       username: userData.username,
       avatar: userData.avatar,
       state: userData.state,
-      gender: userData.gender,
-      website: userData.website,
-      password: userData.password,
     });
   }, [userData]);
 
-  useEffect(() => {
-    if (userData.avatar) {
-      getAvatarApi(userData.avatar).then((response) => {
-        setAvatar(response);
-      });
-    } else {
-      setAvatar(null);
-    }
-  }, [userData]);
-
-  useEffect(() => {
-    if (avatar) {
-      setDatos({ ...datos, avatar: avatar.file });
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [avatar]);
+  console.log(datos);
 
   const updateUser = (e) => {
     e.preventDefault();
 
     let userUpdate = datos;
-    console.log(userUpdate);
 
     if (
       !userUpdate.name ||
@@ -71,79 +52,27 @@ export default function FormEditProfile(props) {
       notification["error"]({
         message: "El nombre, username, email y celular son obligatorios.",
       });
-      return;
-    }
-
-    console.log(userUpdate);
-
-    if (typeof userUpdate.avatar === "object") {
-      uploadAvatarApi(userUpdate.avatar, userData._id).then((response) => {
-        userUpdate.avatar = response.avatarName;
-        updateUserApi(userUpdate, userData._id).then((result) => {
+    } else {
+      console.log(userUpdate);
+      updateUserApi(userUpdate, userData._id)
+        .then((result) => {
           notification["success"]({
             message: result.message,
           });
           setReload(true);
+        })
+        .catch((err) => {
+          notification["error"]({
+            message: err.message,
+          });
+          console.log("error");
         });
-      });
-    } else {
-      updateUserApi(userUpdate, userData._id).then((result) => {
-        notification["success"]({
-          message: result.message,
-        });
-        setReload(true);
-      });
     }
   };
 
-  console.log(datos);
-
   return (
     <div className="div-form-edit">
-      <UploadAvatar avatar={avatar} setAvatar={setAvatar} />
       <Formulario datos={datos} setDatos={setDatos} updateUser={updateUser} />
-    </div>
-  );
-}
-
-function UploadAvatar(props) {
-  const { avatar, setAvatar } = props;
-  const [avatarUrl, setAvatarUrl] = useState(null);
-
-  useEffect(() => {
-    if (avatar) {
-      if (avatar.preview) {
-        setAvatarUrl(avatar.preview);
-      } else {
-        setAvatarUrl(avatar);
-      }
-    } else {
-      setAvatarUrl(null);
-    }
-  }, [avatar]);
-
-  const onDrop = useCallback(
-    (acceptedFiles) => {
-      const file = acceptedFiles[0];
-      setAvatar({ file, preview: URL.createObjectURL(file) });
-    },
-    [setAvatar]
-  );
-
-  const { getRootProps, getInputProps, isDragActive } = useDropzone({
-    accept: "image/jpeg, image/png",
-    noKeyboard: true,
-    onDrop,
-  });
-
-  return (
-    <div className="upload-avatar" {...getRootProps()}>
-      <input {...getInputProps()} />
-      {isDragActive ? (
-        <Avatar size={150} src={NoAvatar} />
-      ) : (
-        <Avatar size={150} src={avatarUrl ? avatarUrl : NoAvatar} />
-      )}
     </div>
   );
 }

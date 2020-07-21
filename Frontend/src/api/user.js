@@ -85,7 +85,7 @@ export function uploadAvatarApi(avatar, idUser) {
   const url = `${basePath}/uploadImgUser/${idUser}`;
 
   const formData = new FormData();
-  formData.append("avatar", avatar, avatar.name);
+  formData.append("avatar", avatar);
 
   const params = {
     method: "PUT",
@@ -106,6 +106,7 @@ export function uploadAvatarApi(avatar, idUser) {
 
 export function updateUserApi(user, userId) {
   const url = `${basePath}/updateUser/${userId}`;
+  console.log(url);
 
   const params = {
     method: "PUT",

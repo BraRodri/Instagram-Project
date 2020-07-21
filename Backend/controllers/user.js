@@ -94,7 +94,7 @@ const logIn = (req, res) => {
   }
 };
 
-async function updateUser(req, res) {
+function updateUser(req, res) {
   const _id = req.params;
   const {
     name,
@@ -110,7 +110,7 @@ async function updateUser(req, res) {
 
   if (password) {
     const space = 10;
-     bcrypt.hash(password, space, (err, hash) => {
+    bcrypt.hash(password, space, (err, hash) => {
       if (err) {
         res.status(500).send({ message: "Error al encriptar la contraseña." });
       } else {
@@ -125,12 +125,14 @@ async function updateUser(req, res) {
           gender: gender,
           password: hash,
         };
-        
+
         User.findByIdAndUpdate(_id.id, data, (err, resp) => {
           if (err) {
             res.status(500).send({ message: "Error en el Servidor" });
           } else {
-            res.status(200).send({ message: "Datos actualizados Correctamente" });
+            res
+              .status(200)
+              .send({ message: "Datos actualizados Correctamente" });
           }
         });
       }
