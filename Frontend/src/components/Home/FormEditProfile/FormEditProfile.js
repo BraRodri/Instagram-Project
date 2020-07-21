@@ -1,33 +1,149 @@
-import React, { useState, useEffect } from "react";
-import { Form, Input, Select, Button, Checkbox } from "antd";
+import React, { useState, useEffect, useCallback } from "react";
+import {
+  Form,
+  Input,
+  Select,
+  Button,
+  Checkbox,
+  Avatar,
+  notification,
+} from "antd";
+import { useDropzone } from "react-dropzone";
+
+import {
+  getAvatarApi,
+  uploadAvatarApi,
+  updateUserApi,
+} from "../../../api/user";
+
+import NoAvatar from "../../../assets/img/png/avatar.png";
 
 import "./FormEditProfile.css";
 
 export default function FormEditProfile(props) {
   const { userData, setReload } = props;
-  const [datos, setDatos] = useState(userData);
+  const [datos, setDatos] = useState({});
+  const [avatar, setAvatar] = useState(null);
 
   useEffect(() => {
     setDatos({
-      id: userData._id,
       name: userData.name,
       email: userData.email,
       telephone: userData.telephone,
       username: userData.username,
       avatar: userData.avatar,
+      state: userData.state,
       gender: userData.gender,
       website: userData.website,
+      password: userData.password,
     });
   }, [userData]);
 
+  useEffect(() => {
+    if (userData.avatar) {
+      getAvatarApi(userData.avatar).then((response) => {
+        setAvatar(response);
+      });
+    } else {
+      setAvatar(null);
+    }
+  }, [userData]);
+
+  useEffect(() => {
+    if (avatar) {
+      setDatos({ ...datos, avatar: avatar.file });
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [avatar]);
+
   const updateUser = (e) => {
     e.preventDefault();
-    console.log(datos);
+
+    let userUpdate = datos;
+    console.log(userUpdate);
+
+    if (
+      !userUpdate.name ||
+      !userUpdate.username ||
+      !userUpdate.email ||
+      !userUpdate.telephone
+    ) {
+      notification["error"]({
+        message: "El nombre, username, email y celular son obligatorios.",
+      });
+      return;
+    }
+
+    console.log(userUpdate);
+
+    if (typeof userUpdate.avatar === "object") {
+      uploadAvatarApi(userUpdate.avatar, userData._id).then((response) => {
+        userUpdate.avatar = response.avatarName;
+        updateUserApi(userUpdate, userData._id).then((result) => {
+          notification["success"]({
+            message: result.message,
+          });
+          setReload(true);
+        });
+      });
+    } else {
+      updateUserApi(userUpdate, userData._id).then((result) => {
+        notification["success"]({
+          message: result.message,
+        });
+        setReload(true);
+      });
+    }
   };
+
+  console.log(datos);
 
   return (
     <div className="div-form-edit">
+      <UploadAvatar avatar={avatar} setAvatar={setAvatar} />
       <Formulario datos={datos} setDatos={setDatos} updateUser={updateUser} />
+    </div>
+  );
+}
+
+function UploadAvatar(props) {
+  const { avatar, setAvatar } = props;
+  const [avatarUrl, setAvatarUrl] = useState(null);
+
+  useEffect(() => {
+    if (avatar) {
+      if (avatar.preview) {
+        setAvatarUrl(avatar.preview);
+      } else {
+        setAvatarUrl(avatar);
+      }
+    } else {
+      setAvatarUrl(null);
+    }
+  }, [avatar]);
+
+  const onDrop = useCallback(
+    (acceptedFiles) => {
+      const file = acceptedFiles[0];
+      setAvatar({ file, preview: URL.createObjectURL(file) });
+    },
+    [setAvatar]
+  );
+
+  const { getRootProps, getInputProps, isDragActive } = useDropzone({
+    accept: "image/jpeg, image/png",
+    noKeyboard: true,
+    onDrop,
+  });
+
+  return (
+    <div className="upload-avatar" {...getRootProps()}>
+      <input {...getInputProps()} />
+      {isDragActive ? (
+        <Avatar size={150} src={NoAvatar} />
+      ) : (
+        <Avatar size={150} src={avatarUrl ? avatarUrl : NoAvatar} />
+      )}
     </div>
   );
 }

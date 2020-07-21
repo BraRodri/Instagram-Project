@@ -18,3 +18,8 @@
   text-align: left;
   font-size: 16px;
 }
+
+.css-en-setting .ant-notification-hook-holder,
+.ant-notification-notice {
+  top: 34px !important;
+}

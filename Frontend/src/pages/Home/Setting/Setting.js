@@ -21,7 +21,7 @@ export default function Setting(props) {
   }, [reload]); // eslint-disable-line react-hooks/exhaustive-deps
 
   return (
-    <div>
+    <div className="css-en-setting">
       <Tabs tabPosition="left" className="tabs-setting">
         <TabPane tab="Editar Perfil" key="1">
           <FormEditProfile
