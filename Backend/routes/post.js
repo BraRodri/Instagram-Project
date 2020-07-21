@@ -1,4 +1,5 @@
 const express = require('express');
+
 const controllerPost = require('./../controllers/post');
 const api = express.Router();
 

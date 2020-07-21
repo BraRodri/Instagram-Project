@@ -94,50 +94,19 @@ const logIn = (req, res) => {
   }
 };
 
-function updateUser(req, res) {
+const updateUser = (req, res) => {
   const _id = req.params;
-  const {
-    name,
-    email,
-    telephone,
-    username,
-    avatar,
-    state,
-    website,
-    gender,
-    password,
-  } = req.body;
-
-  if (password) {
-    const space = 10;
-    bcrypt.hash(password, space, (err, hash) => {
+  let data = req.body;
+  data.email = req.body.email.toLowerCase();
+    User.findByIdAndUpdate(_id.id, data, (err, resp) => {
       if (err) {
-        res.status(500).send({ message: "Error al encriptar la contraseña." });
+        res.status(500).send({ message: "Error en el Servidor" });
       } else {
-        const data = {
-          name: name,
-          email: email.toLowerCase(),
-          telephone: telephone,
-          username: username,
-          avatar: avatar,
-          state: state,
-          website: website,
-          gender: gender,
-          password: hash,
-        };
-
-        User.findByIdAndUpdate(_id.id, data, (err, resp) => {
-          if (err) {
-            res.status(500).send({ message: "Error en el Servidor" });
-          } else {
-            res
-              .status(200)
-              .send({ message: "Datos actualizados Correctamente" });
-          }
-        });
+      res
+        .status(200)
+        .send({ message: "Datos actualizados Correctamente" });
       }
     });
-  }
 }
 
 const deleteUser = (req, res) => {
