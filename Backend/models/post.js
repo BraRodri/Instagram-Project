@@ -7,7 +7,7 @@ const post = new Schema ({
         unique: true
     }, 
     description: String,
-    date: Date,
+    date: String,
     hour: String,
     image: String,
     likes: Number,
