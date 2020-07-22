@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { Form, Input, Button, Row, Col, Avatar, notification } from "antd";
-import { getAvatarApi } from "../../../../api/user";
+import { getAvatarApi, updatePasswordApi } from "../../../../api/user";
 
 import "./FormUpdatePassword.css";
 import NoAvatar from "../../../../assets/img/png/avatar.png";
@@ -24,6 +24,7 @@ export default function FormUpdatePassword(props) {
     e.preventDefault();
 
     let userUpdate = datos;
+    const repeatPassword2 = userUpdate.newRepeatPassword;
 
     if (userUpdate.newPassword || userUpdate.newRepeatPassword) {
       if (userUpdate.newPassword !== userUpdate.newRepeatPassword) {
@@ -35,6 +36,27 @@ export default function FormUpdatePassword(props) {
         delete userUpdate.newRepeatPassword;
       }
     }
+
+    updatePasswordApi(userUpdate, userData._id)
+      .then((result) => {
+        if (!result.message) {
+          notification["error"]({
+            message: "La contraseña antigua es incorrecta.",
+          });
+          userUpdate.newRepeatPassword = repeatPassword2;
+        } else {
+          notification["success"]({
+            message: "Contraseña Actualizada Correctamente.",
+          });
+          setSettingRoload(true);
+        }
+      })
+      .catch((err) => {
+        notification["error"]({
+          message: err.message,
+        });
+        userUpdate.newRepeatPassword = repeatPassword2;
+      });
 
     console.log(datos);
   };
@@ -54,7 +76,6 @@ export default function FormUpdatePassword(props) {
     wrapperCol: { offset: 8, span: 12 },
   };
 
-  console.log(userData._id);
   return (
     <div className="div-form-edit">
       <Row className="div-form-edit-foto-info">
@@ -106,6 +127,7 @@ export default function FormUpdatePassword(props) {
             onChange={(e) =>
               setDatos({ ...datos, newPassword: e.target.value })
             }
+            ref="idNewPassword"
           />
         </Form.Item>
         <Form.Item
@@ -124,6 +146,7 @@ export default function FormUpdatePassword(props) {
             onChange={(e) =>
               setDatos({ ...datos, newRepeatPassword: e.target.value })
             }
+            ref="idNewRepeatPassword"
           />
         </Form.Item>
         <Form.Item {...tailLayout}>
