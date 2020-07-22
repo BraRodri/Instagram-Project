@@ -9,11 +9,12 @@ const middlewareImgUser = multipart({ uploadDir: "./images/imagesAvatar" });
 api.post('/signIn', controllerUser.signIn);
 api.post('/logIn', controllerUser.logIn);
 api.post('/uploadImgUser', [middlewareImgUser], services.uploadImage);
-api.get('/getImageUser/:nameImage', services.getImage);
+api.get('/getImageUser/:nameImage', services.getImageUser);
 api.put('/updateUser/:id', controllerUser.updateUser);
 api.delete('/deleteUser/:id', controllerUser.deleteUser);
 api.get('/updateState/:idUser', controllerUser.updateState);
 api.get('/searchUser/:userName', controllerUser.searchUser);
+api.post('/updatePassword/:id', controllerUser.updatePassword);
 
 //obteniendo TODOS los usuarios
 api.get('/getAllUsers', controllerUser.getAllUsers);

@@ -1,4 +1,5 @@
 const Post = require('./../models/post');
+const { findById } = require('./../models/post');
 
 const AddPost = (req, res) => {
     const params = req.params.idUser;
@@ -12,6 +13,7 @@ const AddPost = (req, res) => {
         post.date = date;
         post.hour = hour;
         post.image = image;
+        post.likes = 0;
         post.save((err, data) => {
             if(err){
                 res.status(500).send({message: 'Error en el servidor'});
@@ -40,7 +42,32 @@ const getAllPost = (req, res) => {
     });
 }
 
+const updatePost = (req, res) => {
+    const idPost = req.params.id;
+    const data = req.body;
+    Post.findByIdAndUpdate(idPost, data, (err, info) => {
+        if(err){
+            res.status(500).send({message: 'Error en el servidor'});
+        }else{
+            res.status(200).send({info});
+        }
+    });
+}
+
+const deletePost = (req, res) => {
+    const idPost = req.params.id;
+    Post.findByIdAndDelete(idPost, (err, info) => {
+        if(err){
+            res.status(500).send({message: 'Error en el servidor'});
+        }else{
+            res.status(200).send({message: 'Post eliminado Exitozamente'});
+        }
+    });
+}
+
 module.exports = {
     AddPost,
-    getAllPost
+    getAllPost,
+    updatePost,
+    deletePost
 }
