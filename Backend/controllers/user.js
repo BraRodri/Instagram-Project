@@ -1,6 +1,7 @@
 const bcrypt = require("bcrypt");
 const { createAccessToken, createRefresh } = require("./../services/jwt-Token");
 const User = require("./../models/user");
+const user = require("./../models/user");
 
 const signIn = (req, res) => {
   const user = new User();
@@ -209,6 +210,48 @@ const getAllUsers = (req, res) => {
   });
 };
 
+const updatePassword = (req, res) => {
+  const idUser = req.params.id; 
+  const { oldPassword, newPassword } = req.body;
+  User.findOne(({_id: idUser}), (err, info) => {
+    if(err){
+      res.status(500).send({message: 'Error en el servidor'});
+    }else{
+      if(!info){
+        res.status(404).send({message: 'No se encontro el Usuario'});
+      }else{
+        let passOld = info.password;
+        bcrypt.compare(oldPassword, passOld, (err, data) => {
+          if(err){
+            res.status(500).send({message: 'Error en el servidor'});
+          }else{
+              if(data === false){
+                res.status(500).send({message: 'La contraseña Antigua es Incorrecta'});
+              }else{
+                bcrypt.hash(newPassword, 10, (err, ress) => {
+                  if(err){
+                    res.status(500).send({message: 'Error en el servidor'});
+                  }else{
+                    const obj = {
+                      password : ress
+                    }  
+                    User.findByIdAndUpdate(idUser, obj, (err, datas) => {
+                      if(err){
+                        res.status(500).send({message: 'Error en el servidor'});
+                      }else{
+                        res.status(200).send({message: 'Contraseña Actualizada Correctamente'});
+                      }  
+                    });
+                  }
+                });
+              }
+          }  
+        });
+      }
+    }
+  });
+}
+
 module.exports = {
   signIn,
   logIn,
@@ -218,4 +261,5 @@ module.exports = {
   searchUser,
   getAllUsers,
   getUserId,
+  updatePassword
 };
