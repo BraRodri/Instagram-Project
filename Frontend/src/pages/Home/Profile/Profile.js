@@ -15,7 +15,7 @@ import NoAvatar from "../../../assets/img/png/avatar.png";
 
 export default function Profile(props) {
   const { TabPane } = Tabs;
-  const { person, reload, setReload } = props;
+  const { person } = props;
 
   const [avatar, setAvatar] = useState(null);
   const [userData, setUserData] = useState({});
@@ -25,8 +25,7 @@ export default function Profile(props) {
     getUserIdApi(idPerson).then((response) => {
       setUserData(response.user);
     });
-    setReload(false);
-  }, [reload]); // eslint-disable-line react-hooks/exhaustive-deps
+  }, [person]); // eslint-disable-line react-hooks/exhaustive-deps
 
   useEffect(() => {
     if (userData.avatar) {
@@ -36,7 +35,7 @@ export default function Profile(props) {
     } else {
       setAvatar(null);
     }
-  }, [reload, userData]);
+  }, [userData]);
 
   return (
     <div>

@@ -106,7 +106,6 @@ export function uploadAvatarApi(avatar, idUser) {
 
 export function updateUserApi(user, userId) {
   const url = `${basePath}/updateUser/${userId}`;
-  console.log(url);
 
   const params = {
     method: "PUT",

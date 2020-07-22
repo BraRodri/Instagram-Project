@@ -7,17 +7,18 @@ import Post from "../../../components/Home/PostHome";
 import SidebarRight from "../../../components/Home/SidebarRightHome";
 
 export default function Home(props) {
-  const { person, reload, setReload } = props;
+  const { person } = props;
 
   const [userData, setUserData] = useState({});
+  const [homeReload, setHomeReload] = useState(false);
 
   useEffect(() => {
     const idPerson = person.id;
     getUserIdApi(idPerson).then((response) => {
       setUserData(response.user);
     });
-    setReload(false);
-  }, [reload]); // eslint-disable-line react-hooks/exhaustive-deps
+    setHomeReload(false);
+  }, [homeReload]); // eslint-disable-line react-hooks/exhaustive-deps
 
   return (
     <div>
@@ -28,8 +29,8 @@ export default function Home(props) {
         <Col lg={4} md={12}>
           <SidebarRight
             userData={userData}
-            reload={reload}
-            setReload={setReload}
+            homeReload={homeReload}
+            setHomeReload={setHomeReload}
           />
         </Col>
       </Row>

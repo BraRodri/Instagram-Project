@@ -10,7 +10,7 @@ import "./SidebarRight.css";
 import NoAvatar from "../../../assets/img/png/avatar.png";
 
 export default function SidebarRight(props) {
-  const { userData, reload } = props;
+  const { userData, homeReload } = props;
 
   const [avatar, setAvatar] = useState(null);
 
@@ -22,7 +22,7 @@ export default function SidebarRight(props) {
     } else {
       setAvatar(null);
     }
-  }, [reload, userData]);
+  }, [homeReload, userData]);
 
   return (
     <div className="dejarfijo">

@@ -4,21 +4,24 @@ import { getUserIdApi } from "../../../api/user";
 
 import "./Setting.css";
 
-import FormEditProfile from "../../../components/Home/FormEditProfile";
+import FormEditProfile from "../../../components/Home/Setting/FormEditProfile";
+import FormUpdatePassword from "../../../components/Home/Setting/FormUpdatePassword";
 
 export default function Setting(props) {
   const { TabPane } = Tabs;
   const { person, reload, setReload } = props;
 
   const [userData, setUserData] = useState({});
+  const [settingRoload, setSettingRoload] = useState(false);
 
   useEffect(() => {
     const idPerson = person.id;
     getUserIdApi(idPerson).then((response) => {
       setUserData(response.user);
     });
+    setSettingRoload(false);
     setReload(false);
-  }, [reload]); // eslint-disable-line react-hooks/exhaustive-deps
+  }, [reload, settingRoload]); // eslint-disable-line react-hooks/exhaustive-deps
 
   return (
     <div className="css-en-setting">
@@ -28,10 +31,16 @@ export default function Setting(props) {
             className="tabs-option-content"
             userData={userData}
             setReload={setReload}
+            setSettingRoload={setSettingRoload}
           />
         </TabPane>
         <TabPane tab="Cambiar Contraseña" key="2">
-          Content of Tab 2
+          <FormUpdatePassword
+            className="tabs-option-content"
+            userData={userData}
+            settingRoload={settingRoload}
+            setSettingRoload={setSettingRoload}
+          />
         </TabPane>
         <TabPane tab="Desactivar Cuenta" key="3">
           Content of Tab 3

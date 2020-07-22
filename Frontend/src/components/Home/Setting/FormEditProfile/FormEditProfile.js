@@ -14,14 +14,14 @@ import {
   getAvatarApi,
   uploadAvatarApi,
   updateUserApi,
-} from "../../../api/user";
+} from "../../../../api/user";
 
-import NoAvatar from "../../../assets/img/png/avatar.png";
+import NoAvatar from "../../../../assets/img/png/avatar.png";
 
 import "./FormEditProfile.css";
 
 export default function FormEditProfile(props) {
-  const { userData, setReload } = props;
+  const { userData, setSettingRoload, setReload } = props;
   const [datos, setDatos] = useState({});
   const [avatar, setAvatar] = useState(null);
 
@@ -33,10 +33,10 @@ export default function FormEditProfile(props) {
       username: userData.username,
       avatar: userData.avatar,
       state: userData.state,
+      website: userData.website,
+      gender: userData.gender,
     });
   }, [userData]);
-
-  console.log(datos);
 
   const updateUser = (e) => {
     e.preventDefault();
@@ -53,19 +53,19 @@ export default function FormEditProfile(props) {
         message: "El nombre, username, email y celular son obligatorios.",
       });
     } else {
-      console.log(userUpdate);
+      // console.log(userUpdate);
       updateUserApi(userUpdate, userData._id)
         .then((result) => {
           notification["success"]({
             message: result.message,
           });
+          setSettingRoload(true);
           setReload(true);
         })
         .catch((err) => {
           notification["error"]({
             message: err.message,
           });
-          console.log("error");
         });
     }
   };
@@ -142,7 +142,12 @@ function Formulario(props) {
         label="Website"
         help="Informacion personal. Proporcione su información personal, incluso si la cuenta se utiliza para un negocio, una mascota u otra cosa. Esto no será parte de tu perfil público."
       >
-        <Input name="website" value={datos.website} placeholder="Website" />
+        <Input
+          name="website"
+          value={datos.website}
+          placeholder="Website"
+          onChange={(e) => setDatos({ ...datos, website: e.target.value })}
+        />
       </Form.Item>
 
       <Form.Item

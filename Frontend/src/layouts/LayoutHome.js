@@ -28,7 +28,6 @@ export default function LayoutHome(props) {
   if (user && !isLoading) {
     const token = getAccessTokenApi();
     const person = jwtDecode(token);
-
     return (
       <div>
         <Navbar person={person} reload={reload} setReload={setReload} />

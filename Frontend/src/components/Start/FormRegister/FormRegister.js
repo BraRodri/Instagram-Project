@@ -16,7 +16,6 @@ export default function FormRegister() {
 
   const register = async (e) => {
     e.preventDefault();
-    console.log(inputs);
 
     const result = await singInApi(inputs);
     if (!result.ok) {
