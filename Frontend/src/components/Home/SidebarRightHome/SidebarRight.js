@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
-import { Image, Button } from "react-bootstrap";
+import { Button } from "react-bootstrap";
+import { Avatar } from "antd";
 
 //funciones importante
 import { getAvatarApi } from "../../../api/user";
@@ -29,14 +30,9 @@ export default function SidebarRight(props) {
       <div>
         <div className="row historiaas">
           <div className="col-lg-3">
-            <Image
-              src={avatar ? avatar : NoAvatar}
-              roundedCircle
-              thumbnail
-              fluid
-            />
+            <Avatar size={55} src={avatar ? avatar : NoAvatar} />
           </div>
-          <div className="col-lg-9">
+          <div className="col-lg-9 text-dejarfijo">
             <strong>{userData.username}</strong>
             <p>{userData.name}</p>
           </div>
@@ -51,14 +47,9 @@ export default function SidebarRight(props) {
           <div className="overflow-auto elscroll col-lg-12 ">
             <div className="row historiaas">
               <div className="col-lg-2">
-                <Image
-                  src={NoAvatar}
-                  roundedCircle
-                  thumbnail
-                  className="img-thumb-editado"
-                />
+                <Avatar size={40} src={NoAvatar} />
               </div>
-              <div className="col-lg-7">
+              <div className="col-lg-7 pt-1">
                 <strong>Username</strong>
                 <p>Nuevo en Instagram</p>
               </div>
@@ -71,14 +62,9 @@ export default function SidebarRight(props) {
           <div className="overflow-auto elscroll col-lg-12 ">
             <div className="row historiaas">
               <div className="col-lg-2">
-                <Image
-                  src={NoAvatar}
-                  roundedCircle
-                  thumbnail
-                  className="img-thumb-editado"
-                />
+                <Avatar size={40} src={NoAvatar} />
               </div>
-              <div className="col-lg-7">
+              <div className="col-lg-7 pt-1">
                 <strong>Username</strong>
                 <p>Nuevo en Instagram</p>
               </div>
@@ -91,14 +77,9 @@ export default function SidebarRight(props) {
           <div className="overflow-auto elscroll col-lg-12 ">
             <div className="row historiaas">
               <div className="col-lg-2">
-                <Image
-                  src={NoAvatar}
-                  roundedCircle
-                  thumbnail
-                  className="img-thumb-editado"
-                />
+                <Avatar size={40} src={NoAvatar} />
               </div>
-              <div className="col-lg-7">
+              <div className="col-lg-7 pt-1">
                 <strong>Username</strong>
                 <p>Nuevo en Instagram</p>
               </div>
@@ -111,14 +92,9 @@ export default function SidebarRight(props) {
           <div className="overflow-auto elscroll col-lg-12 ">
             <div className="row historiaas">
               <div className="col-lg-2">
-                <Image
-                  src={NoAvatar}
-                  roundedCircle
-                  thumbnail
-                  className="img-thumb-editado"
-                />
+                <Avatar size={40} src={NoAvatar} />
               </div>
-              <div className="col-lg-7">
+              <div className="col-lg-7 pt-1">
                 <strong>Username</strong>
                 <p>Nuevo en Instagram</p>
               </div>
@@ -131,14 +107,9 @@ export default function SidebarRight(props) {
           <div className="overflow-auto elscroll col-lg-12 ">
             <div className="row historiaas">
               <div className="col-lg-2">
-                <Image
-                  src={NoAvatar}
-                  roundedCircle
-                  thumbnail
-                  className="img-thumb-editado"
-                />
+                <Avatar size={40} src={NoAvatar} />
               </div>
-              <div className="col-lg-7">
+              <div className="col-lg-7 pt-1">
                 <strong>Username</strong>
                 <p>Nuevo en Instagram</p>
               </div>

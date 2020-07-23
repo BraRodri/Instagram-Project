@@ -1,10 +1,10 @@
 import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
-import { Row, Col, Image } from "react-bootstrap";
+import { Row, Col } from "react-bootstrap";
 import { AiOutlineSetting } from "react-icons/ai";
 import { MdPersonPin, MdFilterFrames } from "react-icons/md";
 import { FaTh, FaBookmark } from "react-icons/fa";
-import { Tabs } from "antd";
+import { Tabs, Avatar } from "antd";
 
 //funciones importante
 import { getAvatarApi, getUserIdApi } from "../../../api/user";
@@ -42,12 +42,7 @@ export default function Profile(props) {
       <div className="top-profile">
         <Row>
           <Col lg={4} md={2} xs={4} className="text-center">
-            <Image
-              src={avatar ? avatar : NoAvatar}
-              roundedCircle
-              thumbnail
-              fluid
-            />
+            <Avatar size={140} src={avatar ? avatar : NoAvatar} />
           </Col>
           <Col lg={8} md={8} xs={8}>
             <Row className="div-top-first">

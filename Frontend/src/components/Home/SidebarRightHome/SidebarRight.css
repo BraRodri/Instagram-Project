@@ -17,6 +17,10 @@
   text-align: right;
 }
 
+.text-dejarfijo {
+  margin-top: 10px;
+}
+
 .link-seguir button {
   font-size: 14px;
 }
