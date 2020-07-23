@@ -7,8 +7,8 @@ const authRoutes = require("./routes/auth");
 const routesUser = require("./routes/user");
 const routesPost = require("./routes/post");
 
-app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
+app.use(bodyParser.json());
 
 // Configure Header HTTP - Configuración de los CORS
 app.use((req, res, next) => {

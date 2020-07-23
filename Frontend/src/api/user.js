@@ -81,14 +81,14 @@ export function getUserIdApi(id) {
     });
 }
 
-export function uploadAvatarApi(avatar, idUser) {
-  const url = `${basePath}/uploadImgUser/${idUser}`;
+export function uploadAvatarApi(avatar) {
+  const url = `${basePath}/uploadImgUser`;
 
   const formData = new FormData();
-  formData.append("avatar", avatar);
+  formData.append("image", avatar);
 
   const params = {
-    method: "PUT",
+    method: "POST",
     body: formData,
   };
 

@@ -32,6 +32,7 @@ export default function Setting(props) {
             className="tabs-option-content"
             userData={userData}
             setReload={setReload}
+            settingRoload={settingRoload}
             setSettingRoload={setSettingRoload}
           />
         </TabPane>

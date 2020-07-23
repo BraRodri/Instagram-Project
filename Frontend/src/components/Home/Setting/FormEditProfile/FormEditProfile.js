@@ -7,6 +7,8 @@ import {
   Checkbox,
   Avatar,
   notification,
+  Row,
+  Col,
 } from "antd";
 import { useDropzone } from "react-dropzone";
 
@@ -21,9 +23,10 @@ import NoAvatar from "../../../../assets/img/png/avatar.png";
 import "./FormEditProfile.css";
 
 export default function FormEditProfile(props) {
-  const { userData, setSettingRoload, setReload } = props;
+  const { userData, settingRoload, setSettingRoload, setReload } = props;
   const [datos, setDatos] = useState({});
   const [avatar, setAvatar] = useState(null);
+  const [newAvatar, setNewAvatar] = useState(null);
 
   useEffect(() => {
     setDatos({
@@ -38,10 +41,28 @@ export default function FormEditProfile(props) {
     });
   }, [userData]);
 
+  useEffect(() => {
+    if (userData.avatar) {
+      getAvatarApi(userData.avatar).then((response) => {
+        setAvatar(response);
+      });
+    } else {
+      setAvatar(null);
+    }
+  }, [settingRoload, userData]);
+
+  useEffect(() => {
+    if (avatar) {
+      setNewAvatar(avatar.file);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [avatar]);
+
   const updateUser = (e) => {
     e.preventDefault();
 
     let userUpdate = datos;
+    let NuevoImgAvatar = newAvatar;
 
     if (
       !userUpdate.name ||
@@ -53,27 +74,97 @@ export default function FormEditProfile(props) {
         message: "El nombre, username, email y celular son obligatorios.",
       });
     } else {
-      // console.log(userUpdate);
-      updateUserApi(userUpdate, userData._id)
-        .then((result) => {
-          notification["success"]({
-            message: result.message,
+      console.log(userUpdate);
+      console.log(newAvatar);
+
+      if (typeof NuevoImgAvatar === "object") {
+        console.log("si avatar new");
+        uploadAvatarApi(NuevoImgAvatar)
+          .then((response) => {
+            userUpdate.avatar = response.nameImage;
+          })
+          .catch((err) => {
+            notification["error"]({
+              message: err.message,
+            });
           });
-          setSettingRoload(true);
-          setReload(true);
-        })
-        .catch((err) => {
-          notification["error"]({
-            message: err.message,
+        console.log(userUpdate);
+      } else {
+        console.log("no avatar new");
+        updateUserApi(userUpdate, userData._id)
+          .then((result) => {
+            notification["success"]({
+              message: result.message,
+            });
+            setSettingRoload(true);
+            setReload(true);
+          })
+          .catch((err) => {
+            notification["error"]({
+              message: err.message,
+            });
           });
-        });
+      }
     }
   };
 
   return (
     <div className="div-form-edit">
+      <UpdateImage avatar={avatar} datos={datos} setAvatar={setAvatar} />
       <Formulario datos={datos} setDatos={setDatos} updateUser={updateUser} />
     </div>
+  );
+}
+
+function UpdateImage(props) {
+  const { avatar, datos, setAvatar } = props;
+  const [avatarUrl, setAvatarUrl] = useState(null);
+
+  useEffect(() => {
+    if (avatar) {
+      if (avatar.preview) {
+        setAvatarUrl(avatar.preview);
+      } else {
+        setAvatarUrl(avatar);
+      }
+    } else {
+      setAvatarUrl(null);
+    }
+  }, [avatar]);
+
+  const onDrop = useCallback(
+    (acceptedFiles) => {
+      const file = acceptedFiles[0];
+      setAvatar({ file, preview: URL.createObjectURL(file) });
+    },
+    [setAvatar]
+  );
+
+  const { getRootProps, getInputProps, isDragActive } = useDropzone({
+    accept: "image/jpeg, image/png",
+    noKeyboard: true,
+    onDrop,
+  });
+
+  return (
+    <Row className="div-form-edit-foto-info-2">
+      <Col
+        sm={6}
+        className="div-form-edit-foto-info-foto-2"
+        {...getRootProps()}
+      >
+        <input {...getInputProps()} />
+        {isDragActive ? (
+          <Avatar size={64} src={NoAvatar} />
+        ) : (
+          <Avatar size={64} src={avatarUrl ? avatarUrl : NoAvatar} />
+        )}
+      </Col>
+      <Col sm={12} className="div-form-edit-foto-info-info-2">
+        <h4>{datos.username}</h4>
+        <p>Puedes actualizar tu foto!</p>
+      </Col>
+    </Row>
   );
 }
 
