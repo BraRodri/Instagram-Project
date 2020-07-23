@@ -152,3 +152,28 @@ export function updatePasswordApi(data, userId) {
       return err.message;
     });
 }
+
+export function updateStateApi(userId, status) {
+  const url = `${basePath}/updateState/${userId}`;
+
+  const params = {
+    method: "PUT",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({
+      state: status,
+    }),
+  };
+
+  return fetch(url, params)
+    .then((response) => {
+      return response.json();
+    })
+    .then((result) => {
+      return result.message;
+    })
+    .catch((err) => {
+      return err.message;
+    });
+}

@@ -6,6 +6,7 @@ import "./Setting.css";
 
 import FormEditProfile from "../../../components/Home/Setting/FormEditProfile";
 import FormUpdatePassword from "../../../components/Home/Setting/FormUpdatePassword";
+import FormDeactivateAccount from "../../../components/Home/Setting/FormDeactivateAccount";
 
 export default function Setting(props) {
   const { TabPane } = Tabs;
@@ -43,7 +44,12 @@ export default function Setting(props) {
           />
         </TabPane>
         <TabPane tab="Desactivar Cuenta" key="3">
-          Content of Tab 3
+          <FormDeactivateAccount
+            className="tabs-option-content"
+            userData={userData}
+            settingRoload={settingRoload}
+            setSettingRoload={setSettingRoload}
+          />
         </TabPane>
       </Tabs>
     </div>

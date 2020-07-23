@@ -83,10 +83,17 @@ const logIn = (req, res) => {
             if (pass === false) {
               res.status(500).send({ message: "Contraseña Incorrecta" });
             } else {
-              res.status(200).send({
-                tokenCreated: createAccessToken(data),
-                tokenRefresh: createRefresh(data),
-              });
+              if (!data.state) {
+                res.status(200).send({
+                  code: 200,
+                  message: "Tu Cuenta esta Desactivada!",
+                });
+              } else {
+                res.status(200).send({
+                  tokenCreated: createAccessToken(data),
+                  tokenRefresh: createRefresh(data),
+                });
+              }
             }
           }
         });
@@ -124,43 +131,23 @@ const deleteUser = (req, res) => {
 };
 
 const updateState = (req, res) => {
-  const _id = req.params.idUser;
-  User.findById(_id, (err, info) => {
+  const { id } = req.params;
+  const { state } = req.body;
+
+  User.findByIdAndUpdate(id, { state }, (err, userStored) => {
     if (err) {
-      res.status(500).send({ message: "Error en el servidor" });
+      res.status(500).send({ message: "Error del servidor." });
     } else {
-      if (!info) {
-        res.status(404).send({ message: "Cuenta no encontrada" });
+      if (!userStored) {
+        res.status(404).send({ message: "No se ha encontrado el usuario." });
       } else {
-        let state = info.state;
         if (state === true) {
-          state = false;
+          res.status(200).send({ message: "Usuario activado correctamente." });
         } else {
-          state = true;
+          res
+            .status(200)
+            .send({ message: "Usuario desactivado correctamente." });
         }
-        const data = {
-          _id: info._id,
-          name: info.name,
-          email: info.email,
-          telephone: info.telephone,
-          username: info.username,
-          avatar: info.avatar,
-          state: state,
-          password: info.password,
-        };
-        User.findByIdAndUpdate(_id, data, (err, inf) => {
-          if (err) {
-            res.status(500).send({ message: "Error en el servidor" });
-          } else {
-            if (!inf) {
-              res.status(404).send({ message: "No se actualizo su estado" });
-            } else {
-              res
-                .status(200)
-                .send({ message: "Estado Actualizado Exitozamente" });
-            }
-          }
-        });
       }
     }
   });
