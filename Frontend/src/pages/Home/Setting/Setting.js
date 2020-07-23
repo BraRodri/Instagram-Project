@@ -10,7 +10,7 @@ import FormDeactivateAccount from "../../../components/Home/Setting/FormDeactiva
 
 export default function Setting(props) {
   const { TabPane } = Tabs;
-  const { person, reload, setReload } = props;
+  const { person, setReload } = props;
 
   const [userData, setUserData] = useState({});
   const [settingRoload, setSettingRoload] = useState(false);
@@ -21,8 +21,7 @@ export default function Setting(props) {
       setUserData(response.user);
     });
     setSettingRoload(false);
-    setReload(false);
-  }, [reload, settingRoload]); // eslint-disable-line react-hooks/exhaustive-deps
+  }, [settingRoload]); // eslint-disable-line react-hooks/exhaustive-deps
 
   return (
     <div className="css-en-setting">
@@ -31,9 +30,9 @@ export default function Setting(props) {
           <FormEditProfile
             className="tabs-option-content"
             userData={userData}
-            setReload={setReload}
             settingRoload={settingRoload}
             setSettingRoload={setSettingRoload}
+            setReload={setReload}
           />
         </TabPane>
         <TabPane tab="Cambiar Contraseña" key="2">

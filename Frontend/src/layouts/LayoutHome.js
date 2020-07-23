@@ -32,12 +32,7 @@ export default function LayoutHome(props) {
       <div>
         <Navbar person={person} reload={reload} setReload={setReload} />
         <Container className="home">
-          <LoadRoutes
-            routes={routes}
-            person={person}
-            reload={reload}
-            setReload={setReload}
-          />
+          <LoadRoutes routes={routes} person={person} setReload={setReload} />
         </Container>
       </div>
     );
@@ -46,7 +41,7 @@ export default function LayoutHome(props) {
   return null;
 }
 
-function LoadRoutes({ routes, person, reload, setReload }) {
+function LoadRoutes({ routes, person, setReload }) {
   return (
     <Switch>
       {routes.map((route, index) => (
@@ -55,11 +50,7 @@ function LoadRoutes({ routes, person, reload, setReload }) {
           path={route.path}
           exact={route.exact}
           component={() => (
-            <route.component
-              person={person}
-              reload={reload}
-              setReload={setReload}
-            />
+            <route.component person={person} setReload={setReload} />
           )}
         />
       ))}

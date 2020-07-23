@@ -31,11 +31,15 @@ export default function Navbar(props) {
   const [avatar, setAvatar] = useState(null);
 
   useEffect(() => {
-    const idPerson = person.id;
-    getUserIdApi(idPerson).then((response) => {
-      setUserData(response.user);
-    });
-    setReload(false);
+    let mounted = true;
+    if (mounted) {
+      const idPerson = person.id;
+      getUserIdApi(idPerson).then((response) => {
+        setUserData(response.user);
+      });
+      setReload(false);
+    }
+    return () => (mounted = false);
   }, [reload]); // eslint-disable-line react-hooks/exhaustive-deps
 
   useEffect(() => {
@@ -46,7 +50,7 @@ export default function Navbar(props) {
     } else {
       setAvatar(null);
     }
-  }, [setReload, userData]);
+  }, [userData]); // eslint-disable-line react-hooks/exhaustive-deps
 
   const logoutUser = () => {
     logout();

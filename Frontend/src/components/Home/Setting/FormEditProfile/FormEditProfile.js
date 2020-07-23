@@ -74,30 +74,24 @@ export default function FormEditProfile(props) {
         message: "El nombre, username, email y celular son obligatorios.",
       });
     } else {
-      console.log(userUpdate);
-      console.log(newAvatar);
-
       if (typeof NuevoImgAvatar === "object") {
-        console.log("si avatar new");
-        uploadAvatarApi(NuevoImgAvatar)
-          .then((response) => {
-            userUpdate.avatar = response.nameImage;
-          })
-          .catch((err) => {
-            notification["error"]({
-              message: err.message,
+        uploadAvatarApi(NuevoImgAvatar).then((response) => {
+          userUpdate.avatar = response.nameImage;
+          updateUserApi(userUpdate, userData._id).then((result) => {
+            notification["success"]({
+              message: result.message,
             });
+            setReload(true);
+            setSettingRoload(true);
           });
-        console.log(userUpdate);
+        });
       } else {
-        console.log("no avatar new");
         updateUserApi(userUpdate, userData._id)
           .then((result) => {
             notification["success"]({
               message: result.message,
             });
             setSettingRoload(true);
-            setReload(true);
           })
           .catch((err) => {
             notification["error"]({
