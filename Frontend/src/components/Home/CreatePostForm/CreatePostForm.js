@@ -1,56 +1,115 @@
-import React, { useEffect, useState } from "react";
-import { Card, Button } from "react-bootstrap";
+import React, { useEffect, useState, useCallback } from "react";
+import { Card, Button, Modal } from "react-bootstrap";
+import { Avatar } from "antd";
+import { useDropzone } from "react-dropzone";
 
 import "./CreatePostForm.css";
 
-export default function CreatePostForm() {
-  const [isLoading, setLoading] = useState(false);
+import SubirImg from "../../../assets/img/png/subirImagen.png";
 
-  function simulateNetworkRequest() {
-    return new Promise((resolve) => setTimeout(resolve, 3000));
-  }
+export default function CreatePostForm() {
+  const [avatar, setAvatar] = useState(null);
+  const [show, setShow] = useState(false);
+
+  const handleClose = () => setShow(false);
+  const handleShow = () => setShow(true);
 
   useEffect(() => {
-    if (isLoading) {
-      simulateNetworkRequest().then(() => {
-        setLoading(false);
-      });
+    if (avatar) {
+      setAvatar(avatar.file);
     }
-  }, [isLoading]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [avatar]);
+
+  console.log(avatar);
 
   return (
     <div className="mb-5">
       <Card>
-        <Card.Header as="h5">Crear nueva publicación!</Card.Header>
         <Card.Body>
-          <Card.Title>¿Que deseas publicar el dia de hoy?</Card.Title>
-          <form>
-            <div className="form-row mb-3">
-              <div className="col">
-                <textarea
-                  className="form-control"
-                  rows="2"
-                  placeholder="Descripcion de la publicación..."
-                ></textarea>
-              </div>
+          <div className="row">
+            <div className="col-lg-8 info-texto-crear">
+              <Card.Title>Crea una nueva publicación</Card.Title>
             </div>
-            <div className="form-row mb-3">
-              <div className="col">
-                <input
-                  type="file"
-                  className="form-control-file"
-                  id="exampleFormControlFile1"
-                ></input>
-              </div>
-            </div>
-            <div>
-              <Button variant="primary" type="submit">
-                Publicar
+            <UpdateImage avatar={avatar} setAvatar={setAvatar} />
+            <div className="col button-a-la-izquierda">
+              <Button variant="primary" onClick={handleShow}>
+                Crear
               </Button>
+
+              <Modal show={show} centered onHide={handleClose}>
+                <Modal.Header closeButton>
+                  <Modal.Title>Crear Publicación</Modal.Title>
+                </Modal.Header>
+                <Modal.Body>
+                  <FormPost />
+                </Modal.Body>
+              </Modal>
             </div>
-          </form>
+          </div>
         </Card.Body>
       </Card>
+    </div>
+  );
+}
+
+function FormPost(props) {
+  return (
+    <form>
+      <h5>¿Que deseas publicar el dia de hoy?</h5>
+      <div className="form-group">
+        <textarea
+          className="form-control"
+          placeholder="Descripción de la publicación..."
+          rows="3"
+        />
+      </div>
+    </form>
+  );
+}
+
+function UpdateImage(props) {
+  const { avatar, setAvatar } = props;
+  const [avatarUrl, setAvatarUrl] = useState(null);
+
+  useEffect(() => {
+    if (avatar) {
+      if (avatar.preview) {
+        setAvatarUrl(avatar.preview);
+      } else {
+        setAvatarUrl(avatar);
+      }
+    } else {
+      setAvatarUrl(null);
+    }
+  }, [avatar]);
+
+  const onDrop = useCallback(
+    (acceptedFiles) => {
+      const file = acceptedFiles[0];
+      setAvatar({ file, preview: URL.createObjectURL(file) });
+    },
+    [setAvatar]
+  );
+
+  const { getRootProps, getInputProps, isDragActive } = useDropzone({
+    accept: "image/jpeg, image/png",
+    noKeyboard: true,
+    onDrop,
+  });
+
+  return (
+    <div {...getRootProps()}>
+      <input {...getInputProps()} />
+      {isDragActive ? (
+        <Avatar shape="square" size={50} src={SubirImg} />
+      ) : (
+        <Avatar
+          shape="square"
+          size={50}
+          src={avatarUrl ? avatarUrl : SubirImg}
+        />
+      )}
     </div>
   );
 }
