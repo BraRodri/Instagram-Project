@@ -88,8 +88,14 @@
     display: none;
   }
 
-  .top-profile img {
-    width: 100%;
+  .top-profile .ant-avatar {
+    width: 90px !important;
+    height: 90px !important;
+  }
+
+  .top-profile .avatar-top-profile img {
+    width: 90px;
+    height: 90px;
   }
 
   .lg-mostrar-pantalla {
@@ -119,5 +125,15 @@
 
   .div-top-first h2 {
     font-size: 25px;
+  }
+
+  .bottom-profile .col-lg-12 {
+    padding: 0px;
+    width: 100%;
+  }
+
+  .ant-tabs > .ant-tabs-nav .ant-tabs-nav-list,
+  .ant-tabs > div > .ant-tabs-nav .ant-tabs-nav-list {
+    padding-left: 15px;
   }
 }

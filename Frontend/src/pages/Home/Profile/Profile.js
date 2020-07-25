@@ -44,7 +44,11 @@ export default function Profile(props) {
       <div className="top-profile">
         <Row>
           <Col lg={4} md={2} xs={4} className="text-center">
-            <Avatar size={140} src={avatar ? avatar : NoAvatar} />
+            <Avatar
+              size={140}
+              src={avatar ? avatar : NoAvatar}
+              className="avatar-top-profile"
+            />
           </Col>
           <Col lg={8} md={8} xs={8}>
             <Row className="div-top-first">

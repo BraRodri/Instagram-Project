@@ -6,6 +6,7 @@ import LayoutHome from "../layouts/LayoutHome";
 import Home from "../pages/Home/Home";
 import Profile from "../pages/Home/Profile";
 import Setting from "../pages/Home/Setting";
+import Post from "../pages/Home/Post";
 
 //pages start
 import Login from "../pages/Start/Login";
@@ -33,6 +34,11 @@ const routes = [
       {
         path: "/home/setting",
         component: Setting,
+        exact: true,
+      },
+      {
+        path: "/home/post/:idPost",
+        component: Post,
         exact: true,
       },
       {

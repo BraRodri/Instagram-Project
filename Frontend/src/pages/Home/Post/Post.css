@@ -1,0 +1,25 @@
+.post-col-img img {
+  width: 100%;
+  height: 630px;
+}
+
+.anyClass {
+  height: 400px;
+  overflow-y: scroll;
+}
+
+.font-hours-public-post {
+  font-size: 12px;
+}
+
+.form-add-coment-post input {
+  border: transparent;
+}
+
+.form-add-coment-post input:focus {
+  box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0);
+}
+
+.btn-submit-post {
+  color: #0095f6;
+}
