@@ -24,7 +24,7 @@ export default function Home(props) {
     <div>
       <Row className="mt-5 mb-5">
         <Col lg={8} md={12}>
-          <Post />
+          <Post userData={userData} />
         </Col>
         <Col lg={4} md={12}>
           <SidebarRight

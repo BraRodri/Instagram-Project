@@ -9,6 +9,8 @@ import { Tabs, Avatar } from "antd";
 //funciones importante
 import { getAvatarApi, getUserIdApi } from "../../../api/user";
 
+import PostUser from "../../../components/Home/Profile/PostUser";
+
 import "./Profile.css";
 
 import NoAvatar from "../../../assets/img/png/avatar.png";
@@ -111,7 +113,7 @@ export default function Profile(props) {
                 }
                 key="1"
               >
-                Content of Tab Pane 1
+                <PostUser />
               </TabPane>
               <TabPane
                 tab={

@@ -1,27 +1,65 @@
 import React, { useEffect, useState, useCallback } from "react";
-import { Card, Button, Modal } from "react-bootstrap";
-import { Avatar } from "antd";
+import { Card, Button, Modal, Alert } from "react-bootstrap";
+import { Avatar, Button as BTNANTD, notification } from "antd";
 import { useDropzone } from "react-dropzone";
+import { addPostApi, uploadImageApi } from "../../../api/post";
 
 import "./CreatePostForm.css";
 
 import SubirImg from "../../../assets/img/png/subirImagen.png";
 
-export default function CreatePostForm() {
+export default function CreatePostForm(props) {
+  const { dataUser } = props;
+
   const [avatar, setAvatar] = useState(null);
   const [show, setShow] = useState(false);
+  const [userData, setUserData] = useState({});
+  const [showAlert, setShowAlert] = useState(false);
 
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
 
   useEffect(() => {
     if (avatar) {
-      setAvatar(avatar.file);
+      setUserData({ ...userData, image: avatar.file });
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [avatar]);
 
-  console.log(avatar);
+  const createPost = (e) => {
+    e.preventDefault();
+
+    const today = new Date(),
+      date =
+        today.getDate() +
+        "/" +
+        (today.getMonth() + 1) +
+        "/" +
+        today.getFullYear();
+
+    let postCreate = userData;
+
+    if (!postCreate.description) {
+      setShowAlert(true);
+      return;
+    }
+
+    if (typeof postCreate.image === "object") {
+      uploadImageApi(postCreate.image).then((response) => {
+        postCreate.image = response.nameImage;
+        postCreate.date = date;
+        postCreate.hour = today.getHours() + ":" + today.getMinutes();
+        addPostApi(postCreate, dataUser._id).then((result) => {
+          handleClose();
+          notification["success"]({
+            message: result.message,
+          });
+        });
+      });
+    } else {
+      setShowAlert(true);
+    }
+  };
 
   return (
     <div className="mb-5">
@@ -31,18 +69,25 @@ export default function CreatePostForm() {
             <div className="col-lg-8 info-texto-crear">
               <Card.Title>Crea una nueva publicación</Card.Title>
             </div>
-            <UpdateImage avatar={avatar} setAvatar={setAvatar} />
             <div className="col button-a-la-izquierda">
               <Button variant="primary" onClick={handleShow}>
                 Crear
               </Button>
-
               <Modal show={show} centered onHide={handleClose}>
                 <Modal.Header closeButton>
                   <Modal.Title>Crear Publicación</Modal.Title>
                 </Modal.Header>
                 <Modal.Body>
-                  <FormPost />
+                  <FormPost
+                    userData={userData}
+                    setUserData={setUserData}
+                    avatar={avatar}
+                    setAvatar={setAvatar}
+                    createPost={createPost}
+                    handleClose={handleClose}
+                    showAlert={showAlert}
+                    setShowAlert={setShowAlert}
+                  />
                 </Modal.Body>
               </Modal>
             </div>
@@ -54,17 +99,50 @@ export default function CreatePostForm() {
 }
 
 function FormPost(props) {
+  const {
+    userData,
+    setUserData,
+    avatar,
+    setAvatar,
+    createPost,
+    handleClose,
+    showAlert,
+    setShowAlert,
+  } = props;
   return (
-    <form>
-      <h5>¿Que deseas publicar el dia de hoy?</h5>
-      <div className="form-group">
-        <textarea
-          className="form-control"
-          placeholder="Descripción de la publicación..."
-          rows="3"
-        />
-      </div>
-    </form>
+    <>
+      <Alert
+        show={showAlert}
+        variant="danger"
+        onClose={() => setShowAlert(false)}
+        dismissible
+      >
+        <Alert.Heading>Ocurrio un Error!</Alert.Heading>
+        <p>La descripción y la imagen son obligatorios!.</p>
+      </Alert>
+      <form name="form-post" onSubmitCapture={createPost}>
+        <h6>¿Que deseas publicar el dia de hoy?</h6>
+        <div className="form-group">
+          <textarea
+            className="form-control"
+            placeholder="Descripción de la publicación..."
+            rows="3"
+            onChange={(e) =>
+              setUserData({ ...userData, description: e.target.value })
+            }
+          />
+        </div>
+        <UpdateImage avatar={avatar} setAvatar={setAvatar} />
+        <div className="mt-4 button-a-la-izquierda">
+          <BTNANTD type="dashed" className="mr-3" onClick={handleClose}>
+            Cancelar
+          </BTNANTD>
+          <BTNANTD type="primary" htmlType="submit">
+            Publicar
+          </BTNANTD>
+        </div>
+      </form>
+    </>
   );
 }
 
@@ -99,14 +177,14 @@ function UpdateImage(props) {
   });
 
   return (
-    <div {...getRootProps()}>
+    <div {...getRootProps()} className="text-center">
       <input {...getInputProps()} />
       {isDragActive ? (
-        <Avatar shape="square" size={50} src={SubirImg} />
+        <Avatar shape="square" size={420} src={SubirImg} />
       ) : (
         <Avatar
           shape="square"
-          size={50}
+          size={420}
           src={avatarUrl ? avatarUrl : SubirImg}
         />
       )}

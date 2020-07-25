@@ -10,7 +10,8 @@ import "./Post.css";
 import ImgNoDisponible from "../../../assets/img/jpg/imagen-no-disponible.jpg";
 import NoAvatar from "../../../assets/img/png/avatar.png";
 
-export default function Post() {
+export default function Post(props) {
+  const { userData } = props;
   const [show, setShow] = useState(false);
 
   const handleClose = () => setShow(false);
@@ -18,7 +19,7 @@ export default function Post() {
 
   return (
     <div className="all-post">
-      <CreatePostForm />
+      <CreatePostForm dataUser={userData} />
 
       <div className="card mb-4">
         <div className="card-header">
