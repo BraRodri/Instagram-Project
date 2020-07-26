@@ -42,6 +42,21 @@ const getAllPost = (req, res) => {
     });
 }
 
+const getAllPostsOneUser = (req, res) => {
+    const idUser = req.params.id;
+    Post.find(({idUser: idUser}), (err, data) => {
+        if(err){
+            res.status(500).send({message: 'Error en el servidor'});
+        }else{
+            if(data == false){
+                res.status(404).send({message: 'No tienes publicaciones actualmente'});
+            }else{
+                res.status(200).send({posts: data});
+            }
+        }
+    });
+}
+
 const updatePost = (req, res) => {
     const idPost = req.params.id;
     const data = req.body;
@@ -68,6 +83,7 @@ const deletePost = (req, res) => {
 module.exports = {
     AddPost,
     getAllPost,
+    getAllPostsOneUser,
     updatePost,
     deletePost
 }
