@@ -9,6 +9,8 @@ import { Tabs, Avatar } from "antd";
 //funciones importante
 import { getAvatarApi, getUserIdApi } from "../../../api/user";
 
+import PostUser from "../../../components/Home/Profile/PostUser";
+
 import "./Profile.css";
 
 import NoAvatar from "../../../assets/img/png/avatar.png";
@@ -42,7 +44,11 @@ export default function Profile(props) {
       <div className="top-profile">
         <Row>
           <Col lg={4} md={2} xs={4} className="text-center">
-            <Avatar size={140} src={avatar ? avatar : NoAvatar} />
+            <Avatar
+              size={140}
+              src={avatar ? avatar : NoAvatar}
+              className="avatar-top-profile"
+            />
           </Col>
           <Col lg={8} md={8} xs={8}>
             <Row className="div-top-first">
@@ -111,7 +117,7 @@ export default function Profile(props) {
                 }
                 key="1"
               >
-                Content of Tab Pane 1
+                <PostUser />
               </TabPane>
               <TabPane
                 tab={
