@@ -6,6 +6,7 @@ const app = express();
 const authRoutes = require("./routes/auth");
 const routesUser = require("./routes/user");
 const routesPost = require("./routes/post");
+const routesComment = require("./routes/comment");
 
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
@@ -26,5 +27,6 @@ app.use((req, res, next) => {
 app.use(`/api/`, authRoutes);
 app.use("/api", routesUser);
 app.use("/api", routesPost);
+app.use('/api', routesComment);
 
 module.exports = app;
