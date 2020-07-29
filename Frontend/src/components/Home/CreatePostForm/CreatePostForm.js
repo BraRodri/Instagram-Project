@@ -3,6 +3,7 @@ import { Card, Button, Modal, Alert } from "react-bootstrap";
 import { Avatar, Button as BTNANTD, notification } from "antd";
 import { useDropzone } from "react-dropzone";
 import { addPostApi, uploadImageApi } from "../../../api/post";
+import Moment from "moment";
 
 import "./CreatePostForm.css";
 
@@ -29,14 +30,6 @@ export default function CreatePostForm(props) {
   const createPost = (e) => {
     e.preventDefault();
 
-    const today = new Date(),
-      date =
-        today.getDate() +
-        "/" +
-        (today.getMonth() + 1) +
-        "/" +
-        today.getFullYear();
-
     let postCreate = userData;
 
     if (!postCreate.description) {
@@ -47,13 +40,17 @@ export default function CreatePostForm(props) {
     if (typeof postCreate.image === "object") {
       uploadImageApi(postCreate.image).then((response) => {
         postCreate.image = response.nameImage;
-        postCreate.date = date;
-        postCreate.hour = today.getHours() + ":" + today.getMinutes();
+
+        const HoraHoy = Moment().format("HH:mm:ss");
+        const FechaHoy = Moment().format("YYYY-MM-DD HH:mm:ss");
+        postCreate.date = FechaHoy;
+        postCreate.hour = HoraHoy;
         addPostApi(postCreate, dataUser._id).then((result) => {
           handleClose();
           notification["success"]({
             message: result.message,
           });
+          setAvatar(null);
         });
       });
     } else {
