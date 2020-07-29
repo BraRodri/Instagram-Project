@@ -117,7 +117,7 @@ export default function Profile(props) {
                 }
                 key="1"
               >
-                <PostUser />
+                <PostUser person={person} />
               </TabPane>
               <TabPane
                 tab={
