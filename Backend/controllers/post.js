@@ -100,6 +100,51 @@ const getPostId = (req, res) => {
   });
 };
 
+const updatePostLike = (req, res) => {
+  const idPost = req.params.id;
+  const data = req.body;
+
+  if (data.state === true) {
+    Post.findByIdAndUpdate(
+      { _id: idPost },
+      { $inc: { likes: 1 } },
+      (err, postUpdate) => {
+        if (err) {
+          res.status(500).send({ code: 500, message: "Error del servidor." });
+        } else {
+          if (!postUpdate) {
+            res.status(404).send({
+              code: 404,
+              message: "No se ha encontrado ningun post.",
+            });
+          } else {
+            res.status(200).send({ message: "Like!" });
+          }
+        }
+      }
+    );
+  } else {
+    Post.findByIdAndUpdate(
+      { _id: idPost },
+      { $inc: { likes: -1 } },
+      (err, postUpdate) => {
+        if (err) {
+          res.status(500).send({ code: 500, message: "Error del servidor." });
+        } else {
+          if (!postUpdate) {
+            res.status(404).send({
+              code: 404,
+              message: "No se ha encontrado ningun post.",
+            });
+          } else {
+            res.status(200).send({ message: "No Like!" });
+          }
+        }
+      }
+    );
+  }
+};
+
 module.exports = {
   AddPost,
   getAllPost,
@@ -107,4 +152,5 @@ module.exports = {
   updatePost,
   deletePost,
   getPostId,
+  updatePostLike,
 };
