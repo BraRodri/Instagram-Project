@@ -29,7 +29,7 @@ const getLikeState = (req, res) => {
       res.status(500).send({ message: "Error en el servidor" });
     } else {
       if (!data) {
-        res.status(404).send({ state: state });
+        console.log("no");
       } else {
         res.status(200).send({ state: data.state });
       }
