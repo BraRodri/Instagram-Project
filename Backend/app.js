@@ -6,11 +6,8 @@ const app = express();
 const authRoutes = require("./routes/auth");
 const routesUser = require("./routes/user");
 const routesPost = require("./routes/post");
-<<<<<<< HEAD
 const routesLike = require("./routes/like");
-=======
 const routesComment = require("./routes/comment");
->>>>>>> e27cff7d9ad068e25e5cf3916e6aa94bc912c4e9
 
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
@@ -31,10 +28,7 @@ app.use((req, res, next) => {
 app.use(`/api`, authRoutes);
 app.use("/api", routesUser);
 app.use("/api", routesPost);
-<<<<<<< HEAD
 app.use("/api", routesLike);
-=======
-app.use('/api', routesComment);
->>>>>>> e27cff7d9ad068e25e5cf3916e6aa94bc912c4e9
+app.use("/api", routesComment);
 
 module.exports = app;
